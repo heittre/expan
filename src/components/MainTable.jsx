@@ -1,6 +1,19 @@
 import { Sheet, Table } from "@mui/joy";
 
+
+const TotalRow = (props) => {
+  return (
+    <tr>
+      <th>Total</th>
+      {Object.keys(props.totals).map((key) => (
+        <td key={key}>{props.totals[key]}</td>
+      ))}
+    </tr>
+  );
+};
+
 const MainTable = (props) => {
+  const {totals} = props
   // eslint-disable-next-line react/prop-types
   const rows = props.tableContent.map((element) => (
     <tr key={element.id}>
@@ -17,8 +30,25 @@ const MainTable = (props) => {
       <td>{element.re.GTa}</td>
       <td>{element.re.GTe}</td>
       <td>{element.re.total}</td>
+      
+      <td>{element.totalByIG}</td>
     </tr>
+
   ));
+
+ 
+
+  // const GVtotals = props.tableContent.reduce(
+  //   (acc, element) => {
+  //     acc.apdGV += element.apd.GV || 0;
+  //     acc.aplGV += element.apl.GV || 0;
+  //     acc.reGV += element.re.GV || 0;
+  //     return acc;
+  //   },
+  //   { apdGV: 0, aplGV: 0, reGV: 0 }
+  // );
+  
+
   return (
     <Sheet
       variant="plain"
@@ -44,6 +74,9 @@ const MainTable = (props) => {
             <th colSpan={4} style={{ textAlign: "center" }}>
               Realizations
             </th>
+            <th rowSpan={2} style={{ textAlign: "center" }}>
+              Total
+            </th>
           </tr>
           <tr>
             <th>GV</th>
@@ -61,6 +94,9 @@ const MainTable = (props) => {
           </tr>
         </thead>
         <tbody>{rows}</tbody>
+        
+        <TotalRow totals={totals} />
+       
       </Table>
     </Sheet>
   );
